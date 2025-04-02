@@ -1,0 +1,53 @@
+prac1
+q1-
+import React, { Component } from "react";
+
+class Parent extends Component {
+    render() {
+        return (
+            <div>
+                <h1>This is Parent class located at {this.props.address}</h1>
+                <Child p_name="Shree" p_rollno="47" />
+            </div>
+        );
+    }
+}
+
+class Child extends Component {
+    render() {
+        return (
+            <div>
+                <h2>
+                    {this.props.p_name}, roll no: {this.props.p_rollno}
+                </h2>
+            </div>
+        );
+    }
+}
+
+export { Parent, Child };
+
+
+q2-
+import React from "react";
+
+const Parent = (props) => {
+    return (
+        <div>
+            <h1>This is Parent class located at {props.address}</h1>
+            <Child p_name="Shree" p_rollno="47" />
+        </div>
+    );
+};
+
+const Child = (props) => {
+    return (
+        <div>
+            <h2>
+                {props.p_name}, roll no: {props.p_rollno}
+            </h2>
+        </div>
+    );
+};
+
+export { Parent, Child };
