@@ -1,0 +1,100 @@
+q1
+import React, { Component } from 'react';
+import './Mount.css';
+
+class MountComp extends Component {
+    constructor(props) {
+        super(props);
+        this.state = { name: "Sangram" };
+    }
+
+    componentDidMount() {
+        setTimeout(() => this.setState({ name: "World" }), 2000);
+    }
+
+    render() {
+        return (
+            <div>
+                <h1>Hello {this.state.name}</h1>
+                <button>Click Me</button>
+            </div>
+        );
+    }
+}
+
+export default MountComp;
+
+q2
+import React, { Component } from 'react';
+
+class UpdateMount extends Component {
+    constructor(props) {
+        super(props);
+        this.state = { name: "Sangram" };
+    }
+
+    componentDidMount() {
+        setTimeout(() => this.setState({ name: "World" }), 2000);
+    }
+
+    getSnapshotBeforeUpdate(prevProps, prevState) {
+        return prevState.name; 
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (snapshot) {
+            document.getElementById('prevName').textContent = "Previous name: " + snapshot;
+        }
+        document.getElementById('currentName').textContent = "Current name: " + this.state.name;
+    }
+
+    render() {
+        return (
+            <div>
+                <h1>Update Life Cycle</h1>
+                <h1>Hello {this.state.name}</h1>
+                <div id="prevName"></div>
+                <div id="currentName"></div>
+            </div>
+        );
+    }
+}
+
+export default UpdateMount;
+
+q3
+import React, { Component } from 'react';
+
+class Unmount extends Component {
+    constructor() {
+        super();
+        this.state = { show: false };
+    }
+
+    render() {
+        return (
+            <div>
+                {this.state.show ? <Child /> : <h2>Unmounting a component in React JS.</h2>}
+                <button onClick={() => this.setState({ show: !this.state.show })}>
+                    Click me
+                </button>
+            </div>
+        );
+    }
+}
+
+class Child extends Component {
+    componentWillUnmount() {
+        alert("Component unmounted");
+    }
+
+    render() {
+        return (
+            <div>
+                <h1>This is child component</h1>
+            </div>
+        );
+    }
+}
+
+export default Unmount;
