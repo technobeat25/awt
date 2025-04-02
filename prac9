@@ -1,0 +1,47 @@
+q3
+⦁	Create a Node.js program that allows users to input text via the command line. Once the user enters the text, the program should save the input into a file named text.txt. Additionally, the program should emit a custom event indicating that the text is ready for processing.
+Users.js
+const fs = require('fs');
+const readline = require('readline');
+const EventEmitter = require('events');
+const eventEmitter = new EventEmitter();
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+function handleInput(input) {
+  eventEmitter.emit('textReady', input);
+}
+eventEmitter.on('textReady', (text) => {
+  console.log(`Custom event fired: Text is ready - ${text}`);
+  fs.writeFile('text.txt', text, (err) => {
+    if (err) throw err;
+    console.log('Text has been saved to text.txt');
+    rl.close();
+  });
+});
+rl.question('Enter some text: ', (text) => {
+  handleInput(text);
+});
+
+
+q4-
+⦁	Create a simple Node.js program that creates an HTTP server and handles requests to it.
+Httpq4.js
+const http = require('http');
+const hostname = '127.0.0.1';
+const port = 4000;
+const server = http.createServer((req, res) => {
+    res.writeHead(200, {'Content-Type': 'text/plain'});
+    if (req.url === '/hello') {
+        res.end('Hello World!\n');
+    } else if (req.url === '/about') {
+        res.end('This is the about page.\n');
+    } else {
+        res.end('Node.js server!\n');
+    }
+});
+server.listen(port, hostname, () => {
+    console.log(`Server running at http://${hostname}:${port}/`);
+});
+
