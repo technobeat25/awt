@@ -1,0 +1,83 @@
+prac3
+q1
+import { useState } from "react";
+
+function Ques1() {
+    const [count, setCount] = useState(0);
+
+    return (
+        <div>
+            <h1>Creating counter using useState in functional component</h1>
+            <h3>Sangram Ghorpade</h3>
+            <h1>Counter: {count}</h1>
+            <button onClick={() => setCount(count + 1)}>Increase</button>
+            <button onClick={() => setCount(count - 1)}>Decrease</button>
+            <button onClick={() => setCount(0)}>Reset</button>
+        </div>
+    );
+}
+
+export default Ques1;
+
+q2
+import { useReducer } from "react";
+
+function reducer(state, action) {
+    switch (action.type) {
+        case "increment":
+            return { age: state.age + 1 };
+        case "decrement":
+            return { age: state.age - 1 };
+        case "reset":
+            return { age: 0 };
+        default:
+            throw new Error("Invalid action type");
+    }
+}
+
+function Ques2() {
+    const [state, dispatch] = useReducer(reducer, { age: 40 });
+
+    return (
+        <div>
+            <h2>Current age: {state.age}</h2>
+            <button onClick={() => dispatch({ type: "increment" })}>Increment</button>
+            <button onClick={() => dispatch({ type: "decrement" })}>Decrement</button>
+            <button onClick={() => dispatch({ type: "reset" })}>Reset</button>
+        </div>
+    );
+}
+
+export default Ques2;
+
+q3
+import { useReducer } from "react";
+
+function reducer(state, action) {
+    switch (action.type) {
+        case "increment":
+            return { count: state.count + 1 };
+        case "decrement":
+            return { count: state.count - 1 };
+        case "reset":
+            return { count: 0 };
+        default:
+            throw new Error("Invalid action type");
+    }
+}
+
+function Ques3() {
+    const [state, dispatch] = useReducer(reducer, { count: 0 });
+
+    return (
+        <div>
+            <h1>Incrementing Counter using useReducer</h1>
+            <h2>Count: {state.count}</h2>
+            <button onClick={() => dispatch({ type: "increment" })}>Increment</button>
+            <button onClick={() => dispatch({ type: "decrement" })}>Decrement</button>
+            <button onClick={() => dispatch({ type: "reset" })}>Reset</button>
+        </div>
+    );
+}
+
+export default Ques3;
