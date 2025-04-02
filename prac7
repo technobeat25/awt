@@ -1,0 +1,180 @@
+Q1) Develop a React application that includes a form with input fields for username and email address. Implement functionality to automatically focus on the username input field when the page loads. 
+➢ Q1.js 
+import React, { useEffect, useRef } from 'react'; export default function Q1() {   const inputRef = useRef();   useEffect(() => {     inputRef.current.focus();     console.log('Username input focused'); 
+  }, []); 
+ 
+  return ( 
+    <div> 
+      <input type="text" placeholder="Enter Name..." ref={inputRef} /> 
+      <input type="email" placeholder="Enter Email..." /> 
+      <button type="submit">Submit</button> 
+    </div> 
+  ); 
+} 
+
+Q2 Develop a React component called FormWithRef that implements a form with input fields for username and email. Use the useRef hook to persist mutable values for these input fields and to store the submitted data. The form should log the submitted data to the console when the user submits the form. 
+➢ Q2.js 
+import React, { useRef } from "react";
+
+export default function FormWithRef() {
+    const usernameRef = useRef();
+    const emailRef = useRef();
+
+    const handleSubmit = () => {
+        console.log(
+            `Submitted Data:\nUsername: ${usernameRef.current.value}, Email: ${emailRef.current.value}`
+        );
+    };
+
+    return (
+        <div>
+            <input type="text" placeholder="Enter Name..." ref={usernameRef} />
+            <input type="email" placeholder="Enter Email..." ref={emailRef} />
+            <button onClick={handleSubmit}>Submit</button>
+        </div>
+    );
+}
+
+Q3 Develop a React application that demonstrates parent-child interaction using the useImperativeHandle hook. Create a parent component and a child component. The child component should have a method that, when called by the parent component, displays a message. 
+➢ Q3Parent.js
+import React, { useRef } from "react";
+import Q3Child from "./Q3Child";
+
+const Q3Parent = () => {
+    const childRef = useRef();
+
+    const handleClick = () => {
+        if (childRef.current) {
+            childRef.current.showMessage();
+        }
+    };
+
+    return (
+        <div>
+            <h1>Parent Component</h1>
+            <button onClick={handleClick}>Call Child Function</button>
+            <Q3Child ref={childRef} />
+        </div>
+    );
+};
+
+export default Q3Parent;
+
+➢ Q3Child.js
+import React, { forwardRef, useImperativeHandle } from "react";
+
+const Q3Child = forwardRef((props, ref) => {
+    const showMessage = () => {
+        console.log("Function called from child component!");
+    };
+
+    useImperativeHandle(ref, () => ({
+        showMessage, // Expose the child method to the parent
+    }));
+
+    return <div>Sangram Ghorpade</div>;
+});
+
+export default Q3Child;
+
+
+practical 7b-
+Aim: Use the useContext hook to share the shopping cart state across component. 
+ 
+a)Create CartProvider() Parent component to manage the state of the shopping cart. Create addToCart() and removeFromCart() functions to add and remove items from the cart, respectively. 
+⦁	Create Child component Cart() which will use useContext hook to access the context provided by parent component. It should render the list of items in the cart along with remove buttons for each item. The removeFromCart() function is invoked when the user clicks on the remove button, updating the cart state accordingly. 
+⦁	Create Child component ProductList() which will use useContext hook to access the the context provided by parent component. When a user clicks on the "Add to Cart" button, it should display a list of products with buttons to add them to the cart. The addToCart() function is called to add the selected product to the cart. 
+ 
+import React, { createContext, useState, useContext } from "react";
+
+// Create Cart Context
+const CartContext = createContext();
+
+export function CartProvider() {
+    const [cart, setCart] = useState([]);
+
+    const addToCart = (item) => {
+        setCart([...cart, item]);
+    };
+
+    const removeFromCart = (index) => {
+        setCart(cart.filter((_, i) => i !== index));
+    };
+
+    return (
+        <CartContext.Provider value={{ cart, addToCart, removeFromCart }}>
+            <div className="app-container">
+                <Cart />
+                <ProductList />
+            </div>
+        </CartContext.Provider>
+    );
+}
+
+// Cart Component
+function Cart() {
+    const { cart, removeFromCart } = useContext(CartContext);
+
+    return (
+        <div className="cart">
+            <h2>Shopping Cart</h2>
+            {cart.length === 0 ? (
+                <p>Your cart is empty</p>
+            ) : (
+                <ul>
+                    {cart.map((item, index) => (
+                        <li key={index}>
+                            {item.name} - Rupees {item.price}
+                            <button onClick={() => removeFromCart(index)}>Remove</button>
+                        </li>
+                    ))}
+                </ul>
+            )}
+        </div>
+    );
+}
+
+// ProductList Component
+function ProductList() {
+    const { addToCart } = useContext(CartContext);
+
+    const products = [
+        { id: 1, name: "Smartwatch", price: 1500 },
+        { id: 2, name: "Smartphone", price: 25000 },
+        { id: 3, name: "Headphones", price: 1999 },
+        { id: 4, name: "Laptop", price: 45000 },
+    ];
+
+    return (
+        <div className="product-list">
+            <h2>Products</h2>
+            <ul>
+                {products.map((product) => (
+                    <li key={product.id}>
+                        {product.name} - Rupees {product.price}
+                        <button onClick={() => addToCart(product)}>Add to Cart</button>
+                    </li>
+                ))}
+            </ul>
+        </div>
+    );
+}
+
+
+app.js
+import React from "react";
+import "./App.css";
+import { CartProvider } from "./Q4.js";
+
+function App() {
+    return (
+        <div className="app">
+            <h1>Shopping Cart Example</h1>
+            <CartProvider />
+        </div>
+    );
+}
+
+export default App;
+
+
