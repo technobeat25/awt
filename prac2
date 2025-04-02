@@ -1,0 +1,62 @@
+prac2
+q1-
+import React, { Component } from "react";
+
+class Message extends Component {
+    constructor() {
+        super();
+        this.state = {
+            message: "Welcome Sangram Ghorpade"
+        };
+    }
+
+    changeMsg = () => {
+        this.setState({
+            message: "Thank you Sangram Ghorpade"
+        });
+    };
+
+    render() {
+        return (
+            <div>
+                <h1>{this.state.message}</h1>
+                <button onClick={this.changeMsg}>Click me</button>
+            </div>
+        );
+    }
+}
+
+export default Message;
+
+
+q2-
+import React, { Component } from "react";
+
+class Counter extends Component {
+    constructor() {
+        super();
+        this.state = {
+            ctr: 0
+        };
+    }
+
+    CtrInc = () => {
+        this.setState({
+            ctr: this.state.ctr + 1
+        });
+    };
+
+    render() {
+        return (
+            <div>
+                <h1>Creating Counter using React</h1>
+                <h2>Sangram Ghorpade</h2>
+                <h1>Counter: {this.state.ctr}</h1>
+                <button onClick={this.CtrInc}>Click me</button>
+            </div>
+        );
+    }
+}
+
+export default Counter;
+
